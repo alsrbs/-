@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animation Test</title>
+<style>
+  #box {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
+</head>
+<body>
+<div id="box"></div>
+<script>
+  const box = document.getElementById('box');
+  let currentPosition = 0;
+  let direction = 1;
+  let lastFrameTime = 0;
+
+  function animate(timestamp) {
+
+    // 이전 프레임과 현재 프레임 간의 시간 차이를 계산하여 프레임 속도를 측정
+    const delta = timestamp - lastFrameTime;
+    const fps = 1000 / delta; // 프레임 속도 계산 (밀리초 단위)
+
+    // 프레임 속도를 콘솔에 출력
+    console.log('FPS:', fps);
+
+    currentPosition += direction;
+    if (currentPosition >= window.innerWidth - 100 || currentPosition <= 0) {
+      direction *= -100;
+    }
+    box.style.left = currentPosition + 'px';
+    requestAnimationFrame(animate);
+
+    // 마지막 프레임 시간 업데이트
+    lastFrameTime = timestamp;
+  }
+
+  animate(); // 애니메이션 시작
+</script>
+</body>
+</html>
